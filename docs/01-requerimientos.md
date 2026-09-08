@@ -15,11 +15,11 @@ Luis, un profesor de música, busca exponer a sus alumnos a distintos géneros m
 
 ## (4)Cinco funcionalidades iniciales.
 
-F1- Buscar canciones
-F2- crear playlists
-F3- añadir/borrar canciones de las playlists
-F4- mostrar información de una canción
-F5- recomendar canciones/artistas del mismo género
+F1- Buscar canciones: Permitir al usuario buscar canciones dentro del sistema.
+F2- Crear playlists: Permitir al usuario crear playlists personalizadas.
+F3- Añadir/borrar canciones de las playlists: Incorporar o quitar canciones de las listas de reproducción.
+F4- Mostrar información de una canción: Mostrar información relacionada con una canción, álbum o artista.
+F5- Recomendar canciones/artistas del mismo género: Recomendar canciones o artistas relacionados con el género musical de interés del usuario.
 
 ## (5) Un ejemplo de interacción.
 
@@ -37,7 +37,7 @@ ___________
 
 [!] Ingrese el nombre de la canción: Fanky
 
-resultado:
+Resultado:
 
 [1] Fanky (Charly Garcia)
 [2] …
