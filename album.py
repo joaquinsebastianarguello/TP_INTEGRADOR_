@@ -63,4 +63,4 @@ if __name__ == "__main__":
 
     print("BUSCAR")
     # ver que hacer a futuro con repetidos. agregar un decorador para separar los resultados, o dejarlo mas prolijo
-    print(album.buscar())
+    print(album.buscar()) 
