@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # lista sacada online btw, generico hasta tener una base de datos
     c1 = Cancion("De Musica Ligera", "Soda Stereo", "Rock", "Ella durmio...", "5 estrellas")
     c2 = Cancion("Tratame Suavemente", "Soda Stereo", "Rock", "Alguien me dijo...", "5 estrellas")
-    c3 = Cancion("Hello", "Adele", "Pop", "Hello, it's me...", "5 estrallas")
+    c3 = Cancion("Hello", "Adele", "Pop", "Hello, it's me...", "5 estrellas")
     c4 = Cancion("Hello", "Lionel Richie", "Pop", "I've been alone...", "5 estrellas")
 
     album = Album("Colección Principal")

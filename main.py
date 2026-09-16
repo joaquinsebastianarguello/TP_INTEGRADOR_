@@ -1,3 +1,6 @@
+from cancion import Cancion
+from album import Album
+
 playlist = [] # Creamos la lista donde guardaremos las canciones
 
 while True:
@@ -12,10 +15,13 @@ while True:
     opcion = input("Elegí una opción: ")
 
     if opcion == "1":
-        nombre = input("Nombre de la canción: ")
+        titulo = input("Título de la canción: ")
         artista = input("Artista: ")
+        genero = input("Género: ")
+        letra = input("Letra: ")
+        calificacion = input("Calificación: ")
 
-        cancion = f"{nombre} - {artista}"
+        cancion = Cancion(titulo, artista, genero, letra, calificacion)
         playlist.append(cancion)
 
         print("Canción agregada correctamente")
@@ -36,7 +42,6 @@ while True:
         else:
             for cancion in playlist:
                 print(cancion)
-
     elif opcion == "5":
         print("Saliendo del programa...")
         break
