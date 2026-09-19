@@ -1,7 +1,12 @@
-from cancion import Cancion
-from album import Album
 
-playlist = [] # Creamos la lista donde guardaremos las canciones
+from cancion import *
+from album import *
+from usuario import *
+import json
+
+usuario = Usuario("Luis")
+#habria que borrar playlist, con las clases ya creadas no es necesario
+playlist = []
 
 while True:
 # Mostramos el menú de opciones

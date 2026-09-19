@@ -26,7 +26,6 @@ class Album:
         else:
             return(resultado)
 
-
     def buscar(self):
         resultado = []
         coincidencias = False
@@ -40,27 +39,19 @@ class Album:
         else:
             return(resultado)
 
-# PRUEBAS :
+class  Playlist(Album):
+    def __init__ (self, nombre):
+        super().__init__(nombre) 
+        #hereda todos los metodos de album, de momento es preferible que playlist sea una version de la clase album con un par de funcionalidades extra
 
-if __name__ == "__main__":
-    # lista sacada online btw, generico hasta tener una base de datos
-    c1 = Cancion("De Musica Ligera", "Soda Stereo", "Rock", "Ella durmio...", "5 estrellas")
-    c2 = Cancion("Tratame Suavemente", "Soda Stereo", "Rock", "Alguien me dijo...", "5 estrellas")
-    c3 = Cancion("Hello", "Adele", "Pop", "Hello, it's me...", "5 estrellas")
-    c4 = Cancion("Hello", "Lionel Richie", "Pop", "I've been alone...", "5 estrellas")
+    def nombrar(self):
+        nombrenuevo = input("ingrese el nombre de la playlist: ")
+        self._nombre = nombrenuevo
 
-    album = Album("Colección Principal")
-    album.agregarCancion(c1)
-    album.agregarCancion(c2)
-    album.agregarCancion(c3)
-    album.agregarCancion(c4)
+    def eliminar_cancion(self, cancion):
+        if cancion in self._canciones:
+            self._canciones.remove(cancion)
+            return ("la cancion fue eliminada")
+        else:
+            return ("La cancion no fue encontrada")
 
-    print("LISTAR")
-    album.listar()
-
-    print("FILTRAR")
-    print(album.filtrar())
-
-    print("BUSCAR")
-    # ver que hacer a futuro con repetidos. agregar un decorador para separar los resultados, o dejarlo mas prolijo
-    print(album.buscar()) 
