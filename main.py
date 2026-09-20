@@ -1,8 +1,8 @@
-
+#tengo problemas entendiendo el jason, pero añadi tantos datos como pude. otra vez, saque los datos por web y en formato py para probar
 from cancion import *
 from album import *
 from usuario import *
-import json
+from datos import *
 
 usuario = Usuario("Luis")
 #habria que borrar playlist, con las clases ya creadas no es necesario
@@ -27,12 +27,12 @@ while True:
         calificacion = input("Calificación: ")
 
         cancion = Cancion(titulo, artista, genero, letra, calificacion)
-        playlist.append(cancion)
-
+        Usuario.self._favoritos.append(cancion)
         print("Canción agregada correctamente")
 
+
     elif opcion == "2":
-        nombre = input("Nombre de la canción a eliminar: ")
+        nombre = input("Nombre de la canción a eliminar: ").strip().lower()
         print(f"Se eliminó '{nombre}'")
 
     elif opcion == "3":
@@ -47,6 +47,7 @@ while True:
         else:
             for cancion in playlist:
                 print(cancion)
+
     elif opcion == "5":
         print("Saliendo del programa...")
         break
