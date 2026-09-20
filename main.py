@@ -1,54 +1,53 @@
-#tengo problemas entendiendo el jason, pero añadi tantos datos como pude. otra vez, saque los datos por web y en formato py para probar
+#https://elpythonista.com/json-python-leer-escribir , de aca saque la informacion para convertir la informacion json, no habia conocimiento previo
+#una vez mas, la lista es la misma de la web, para tener un marco en el que trabajar
 from cancion import *
 from album import *
 from usuario import *
-from datos import *
+import json
+
+with open('datos.json', 'r', encoding='utf-8') as datos:
+    datos = json.load(datos)
 
 usuario = Usuario("Luis")
-#habria que borrar playlist, con las clases ya creadas no es necesario
-playlist = []
+bibliotecaCanciones = [] #home- un generico para mostrar todo
+for i in datos:
+    cancion_A = Cancion(i["titulo"], i["artista"], i["genero"], i["letra"], i["calificacion"])
+    bibliotecaCanciones.append(cancion_A)
+#paso la explicacion pq me costo una banda, pero como ya tenemos listas reservadas, añado el generico
+#una vez tengo el generico, hago que "i" buscque cada valor en datos
+#aparentemente, hay que hacer una transferencia para que el formato diccionario de json sea el valor de cancion.py
+#entonces haces que cancion.py sea una variante, que toma el valor "i",
+#y lo añade en la carpeta "bibliotecaCanciones" hasta quedar vacio (o lleno, depende como lo veas)
+#anduve viendo trabajos y probando fuerza bruta hasta que salio, siendo sincero
 
 while True:
 # Mostramos el menú de opciones
-    print("\n=== MI PLAYLIST ===")
-    print("1. Agregar canción")
-    print("2. Eliminar canción")
-    print("3. Calificar canción")
-    print("4. Mostrar playlist")
-    print("5. Salir")
+    print("\n=== DISCOTECA ===")
+    print("1. BUSCADOR")
+    print("2. BIBLIOTECA")
+    print("3. CREAR PLAYLIST")
+    print("4. FAVORITOS")
+    print("5. EXPLORAR CANCIONES")
+    print("6. SALIR")
 
-    opcion = input("Elegí una opción: ")
+    opcion = input("INGRESE UNA OPCION: ")
 
     if opcion == "1":
-        titulo = input("Título de la canción: ")
-        artista = input("Artista: ")
-        genero = input("Género: ")
-        letra = input("Letra: ")
-        calificacion = input("Calificación: ")
+        buscar = input("INGRESE EL NOMBRE DE LA CANCION: ").lower()
+        encontrado = False
+        for i in bibliotecaCanciones:
+            if buscar in i._titulo.lower().strip():
+                encontrado = True
+                print (i)
+            else:
+                print("NO SE ENCONTRO NINGUNA CANCION.")
 
-        cancion = Cancion(titulo, artista, genero, letra, calificacion)
-        Usuario.self._favoritos.append(cancion)
-        print("Canción agregada correctamente")
-
-
-    elif opcion == "2":
-        nombre = input("Nombre de la canción a eliminar: ").strip().lower()
-        print(f"Se eliminó '{nombre}'")
-
-    elif opcion == "3":
-        nombre = input("Nombre de la canción: ")
-        nota = input("Calificación (1-5): ")
-        print(f"'{nombre}' recibió {nota} estrellas")
-
-    elif opcion == "4":
-        print("=== PLAYLIST ===")
-        if len(playlist) == 0:
-            print("La playlist está vacía.")
-        else:
-            for cancion in playlist:
-                print(cancion)
 
     elif opcion == "5":
+        for cancion in datos:
+            print (cancion_A)
+
+    elif opcion == "6":
         print("Saliendo del programa...")
         break
 # Si el usuario introduce una opción que no existe
