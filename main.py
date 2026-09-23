@@ -4,6 +4,7 @@ from cancion import *
 from album import *
 from usuario import *
 import json
+import time
 
 with open('datos.json', 'r', encoding='utf-8') as datos:
     datos = json.load(datos)
@@ -80,23 +81,47 @@ while True:
         tipobusqueda = input ("INGRESE EL TIPO DE BUSQUEDA A REALIZAR").lower()
         #METODOS TEMPORALES; BORRAR DESPUES
         buscar = input("INGRESE EL NOMBRE DE LA CANCION: ").lower()
-        #METODO TEMPORAL; BORRAR DESPUES
+        #METODO TEMPORAL; BORRAR DESPUES #SE TIENE QUE PONER EL NOMBRE EXACTO DE LA CANCION PARA QUE FUNCIONE
+
+#Comparación: el árbol es más eficiente con muchos datos, mientras que la búsqueda secuencial es más simple para pocos datos.
+
         if tipobusqueda == "1":
+            inicio = time.perf_counter()
+
             encontrado = False
+
             for i in bibliotecaCanciones:
                 if buscar in i._titulo.lower().strip():
                     encontrado = True
-                    print (i)
+                    print(i)
+
+            fin = time.perf_counter()
+
             if not encontrado:
                 print("NO SE ENCONTRO NINGUNA CANCION.")
 
-        elif tipobusqueda == "2": #todo aca esta sacado de los ejemplos de arboles_binarios_recorridos/tad_arbol.py en el campus (no recuerdo bien la clase)
-        #nota aparte- parece que el arbol debe ir por fuera de la opcion
+            tiempo = (fin - inicio) * 1000
+
+            print(f"Tiempo de búsqueda: {tiempo:4f} segundos")
+            print("Complejidad: O(n)")
+
+        elif tipobusqueda == "2":
+            inicio = time.perf_counter()
+
             resultado = buscarNodo(raizArbol, buscar)
+
+            fin = time.perf_counter()
+
             if resultado != None:
                 print(resultado)
             else:
                 print("NO SE ENCONTRO NINGUNA CANCION")
+
+            tiempo = (fin - inicio) * 1000
+
+            print(f"Tiempo de búsqueda: {tiempo:4f} segundos")
+            print("Complejidad promedio: O(log n)")
+            print("Complejidad peor caso: O(n)")
 	
 
     elif opcion == "2":
@@ -148,5 +173,6 @@ while True:
         print("Saliendo del programa...")
         break
 # Si el usuario introduce una opción que no existe
-    else:
+else:
         print("Opción inválida")
+
