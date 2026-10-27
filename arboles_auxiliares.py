@@ -1,4 +1,4 @@
-
+from cancion import *
 #SEPARADOR
 # ubico aca el arbol, dentro de las opciones no funciona
 class nodo_arbol:   #clase nodo arbol
@@ -76,3 +76,59 @@ def mostrarArbolGeneral(raiz, nivel=0):#recorrido recursivopara mostrar la jerar
     for hijo in raiz.hijos:#recorre recursivamente a los hijos
         mostrarArbolGeneral(hijo, nivel + 1)
         #este formato lo saque de un video, para que quede mas prolijo a la hora de presentar y se parezca mas a lo propuesto en el tp
+
+#pude conseguir la mayoria de la informacion del powerpoint de la catedra, en caso de dudas
+class MaxHeap:
+    def __init__(self):
+        self.heap = []
+
+    def swapp(self, i, j): #intercambiamos los nodos del heap
+        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
+
+    def sift_up(self, index): #Realiza el burbujeo hacia arriba para mantener la propiedad del MaxHeap.
+      parent = (index - 1) // 2
+      if index > 0 and self.heap[index]._calificacion > self.heap[parent]._calificacion:
+        self.swapp(index, parent)
+        self.sift_up(parent)
+
+    def sift_down(self, index): #Realiza el burbujeo hacia abajo para mantener la propiedad del MaxHeap.
+      left = 2 * index + 1
+      right = 2 * index + 2
+      largest = index # compara el hijo izquierdo con la calificacion
+      if left < len(self.heap) and self.heap[left]._calificacion > self.heap[largest]._calificacion:
+          largest = left
+      if right < len(self.heap) and self.heap[right]._calificacion > self.heap[largest]._calificacion:
+          largest = right
+      if largest != index:
+          self.swapp(index, largest)
+          self.sift_down(largest)
+
+    def insert(self, value): #Inserta un nuevo valor en el heap.
+        self.heap.append(value)
+        self.sift_up(len(self.heap) - 1)
+
+    def extract_max(self): #Extrae y devuelve el máximo valor del heap.
+        if len(self.heap) == 0:
+           return None
+        if len(self.heap) == 1:
+           return self.heap.pop()
+
+        root = self.heap[0]
+        self.heap[0] = self.heap.pop()
+        self.sift_down(0)
+        return root
+
+#mostrarlo costo un poco, pero hice una lista de la que sacar las canciones segun el total que haya
+#y heap_mostrar conectado con maxheap, conectados con ranking. como ranking saca de biblioteca y heap_mostrar
+#es = a ranking, maxheap() toma las canciones e inserta en listaheap, de la que se sacan las mejores calificadas
+#(top 10, en este caso)
+    def mostrar (self, total):
+        listaheap = []
+        heap_mostrar = MaxHeap()#muestra el heap, y como maxheap = mostrar y ranking, van a compartir esos datos
+        for cancion in self.heap:
+            heap_mostrar.insert(cancion)
+        for i in range(total): #bucle por cada vuelta al total de canciones
+            canciones = heap_mostrar.extract_max()
+            if canciones != None:
+                listaheap.append(canciones)
+        return listaheap

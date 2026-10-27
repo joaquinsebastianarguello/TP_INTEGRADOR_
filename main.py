@@ -31,6 +31,10 @@ raizArbolGeneral = nodo_arbol_general("Biblioteca por categorias")
 for cancion in bibliotecaCanciones:
     agregarCancionPorGenero(raizArbolGeneral, cancion)
 
+ranking = MaxHeap()
+for cancion in bibliotecaCanciones:
+    ranking.insert(cancion)
+
 while True:
 # Mostramos el menú de opciones
     print("\n=== DISCOTECA ===")
@@ -40,7 +44,8 @@ while True:
     print("4. FAVORITOS")#playlist default,muestra las canciones que se hayan en favoritos, buscar, agregar
     print("5. EXPLORAR CANCIONES")#muestra todo, filtrar por genero/rating
     print("6. EXPLORAR CATEGORIAS")#mustra las categorias del arbol general
-    print("7. SALIR")
+    print("7. TOP CANCIONES")
+    print("8. SALIR")
 
     opcion = input("INGRESE UNA OPCION: ")
 
@@ -266,6 +271,14 @@ while True:
         mostrarArbolGeneral(raizArbolGeneral)
 
     elif opcion == "7":
+        print("TOP 10 CANCIONES MEJOR CALIFICADAS:")
+        print("="*15)
+        top = ranking.mostrar(10)
+        for cancion in top:
+            print(f"Titulo: {cancion._titulo} / Artista {cancion._artista} / Calificacion {cancion._calificacion}")
+            print("="*15)
+
+    elif opcion == "8":
         print("Saliendo del programa...")
         break
 # Si el usuario introduce una opción que no existe
