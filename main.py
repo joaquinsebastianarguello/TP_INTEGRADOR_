@@ -35,6 +35,12 @@ ranking = MaxHeap()
 for cancion in bibliotecaCanciones:
     ranking.insert(cancion)
 
+grafoMain = Graph()
+mapaVertices = {}
+for cancion in bibliotecaCanciones:
+    vertice = grafoMain.insert_vertex(cancion)
+    mapaVertices[cancion] = vertice
+
 while True:
 # Mostramos el menú de opciones
     print("\n=== DISCOTECA ===")
@@ -45,7 +51,8 @@ while True:
     print("5. EXPLORAR CANCIONES")#muestra todo, filtrar por genero/rating
     print("6. EXPLORAR CATEGORIAS")#mustra las categorias del arbol general
     print("7. TOP CANCIONES")
-    print("8. SALIR")
+    print("8.")
+    print("9. SALIR")
 
     opcion = input("INGRESE UNA OPCION: ")
 
@@ -278,7 +285,7 @@ while True:
             print(f"Titulo: {cancion._titulo} / Artista {cancion._artista} / Calificacion {cancion._calificacion}")
             print("="*15)
 
-    elif opcion == "8":
+    elif opcion == "9":
         print("Saliendo del programa...")
         break
 # Si el usuario introduce una opción que no existe

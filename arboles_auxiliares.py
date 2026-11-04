@@ -1,4 +1,7 @@
 from cancion import *
+import json #grafo accede a los datos
+#esto ya paso mas a seer codigos_auxiliares, en realidad
+
 #SEPARADOR
 # ubico aca el arbol, dentro de las opciones no funciona
 class nodo_arbol:   #clase nodo arbol
@@ -132,3 +135,49 @@ class MaxHeap:
             if canciones != None:
                 listaheap.append(canciones)
         return listaheap
+
+#ACLARO!!!! este codigo esta tomado de el libro de la catedra, el capitulo 8, archivo Graph.py,
+#solo voy a traducir algunas cosas y basarme en ese grafo para poder trabajarlo
+#todo metodo que no este, fue borrado por no aportar valor al trabajo
+class Graph: #solo por si acaso, vertex = vertice, edge = arista
+    class Vertex: #estructura ligera de un grafo. vertice "cancion"
+        __slots__ = '_element'
+        def __init__(self, x):
+            self._element = x
+        def element(self):
+            return self._element
+        def __str__(self):
+            return str(self._element)
+    
+    class Edge: #arista. conexion entre dos canciones. 
+        __slots__ = '_origin', '_destination', '_element'
+        def __init__(self, u, v, x):
+            self._origin = u
+            self._destination = v
+            self._element = x  #elemento, como "genero"
+        
+        def opposite(self, v): #con un vertice, devuelve el vecino (vertice contrario)
+            return self._destination if v is self._origin else self._origin
+        
+        def element(self):
+            return self._element
+
+    def __init__(self): #crea el grafo vacio usando un diccionario
+        self._outgoing = {}
+
+    def insert_vertex(self, x=None): #agrega un elemento (cancion, vertice) como vertice al grafo y lo retorna
+        v = self.Vertex(x)
+        self._outgoing[v] = {}
+        return v
+        
+    def insert_edge(self, u, v, x=None): #conecta dos canciones en una arista(vertices u y v)
+                                        # con x como un auxiliar (algo en comun entre vertices)
+        self._outgoing[u][v] = x
+        self._outgoing[v][u] = x  #no dirigido
+
+    def vertices(self): #devuelve todos los vertices (canciones) del grafo
+        return self._outgoing.keys()
+
+    def incident_edges(self, v): #devuelve las aristas que salen de un vertice
+        for v2, x in self._outgoing[v].items(): # v se convierte en v2 (otro vertice final), con x como comun
+            yield self.Edge(v, v2, x) #se crea una arista edge con los nuevos datos
