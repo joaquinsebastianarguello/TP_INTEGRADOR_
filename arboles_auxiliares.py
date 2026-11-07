@@ -165,6 +165,18 @@ class Graph: #solo por si acaso, vertex = vertice, edge = arista
     def __init__(self): #crea el grafo vacio usando un diccionario
         self._outgoing = {}
 
+    def _validate_vertex(self, v): #resulta que sin esto, el codigo no funciona, asi que lo voy a añadir
+        if not isinstance(v, self.Vertex): #verifica que v sea un vertex y no otro dato
+            raise TypeError('Vertex expected')#dudo que se vean los typeerror, pero los mantengo por si las dudas,
+                                            #de paso que se vea que esta estructura sale de graph.py
+        if v not in self._outgoing:
+            raise ValueError('Vertex does not belong to this graph.')
+
+    def get_edge(self, u, v):#devuelve la arista o none
+        self._validate_vertex(u)
+        self._validate_vertex(v)
+        return self._outgoing[u].get(v)
+
     def insert_vertex(self, x=None): #agrega un elemento (cancion, vertice) como vertice al grafo y lo retorna
         v = self.Vertex(x)
         self._outgoing[v] = {}

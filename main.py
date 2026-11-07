@@ -38,9 +38,23 @@ for cancion in bibliotecaCanciones:
 grafoMain = Graph()
 mapaVertices = {}
 for cancion in bibliotecaCanciones:
-    vertice = grafoMain.insert_vertex(cancion)
-    mapaVertices[cancion] = vertice
-
+    vertice = grafoMain.insert_vertex(cancion) #se crea un vertice por cada cancion de biblioteca
+    mapaVertices[cancion] = vertice#se crean los vertices
+for cancion in bibliotecaCanciones:
+    for cancion2 in bibliotecaCanciones: #si, es un for anidado (0n**2) y va a bajar el rendimiento, pero es lo
+                                        #unico que se me ocurrio para poder mostrarlo, si hay tiempo lo hay que cambiar
+        if cancion != cancion2:#que la cancion no se compare consigo misma
+            mismoArtista = cancion._artista.lower().strip() == cancion2._artista.lower().strip()
+            mismoGenero = cancion._genero.lower().strip() == cancion2._genero.lower().strip()
+            if mismoArtista or mismoGenero:#buscamos el conector comun para las canciones (vertices)
+                vertice1 = mapaVertices[cancion] #con el [] consultamos los vertices en el diccionario
+                vertice2 = mapaVertices[cancion2]
+                if mismoArtista:
+                    comun = f"Mismo Artista ({cancion._artista})"
+                else:
+                    comun = f"Genero: {cancion._genero}"
+                if grafoMain.get_edge(vertice1, vertice2) is None: #verificamos si hay aristas, si no, las crea
+                    grafoMain.insert_edge(vertice1, vertice2, comun)
 while True:
 # Mostramos el menú de opciones
     print("\n=== DISCOTECA ===")
@@ -51,7 +65,7 @@ while True:
     print("5. EXPLORAR CANCIONES")#muestra todo, filtrar por genero/rating
     print("6. EXPLORAR CATEGORIAS")#mustra las categorias del arbol general
     print("7. TOP CANCIONES")
-    print("8.")
+    print("8. BUSQUEDA DE CANCIONES RECOMENDADAS")
     print("9. SALIR")
 
     opcion = input("INGRESE UNA OPCION: ")
@@ -284,6 +298,30 @@ while True:
         for cancion in top:
             print(f"Titulo: {cancion._titulo} / Artista {cancion._artista} / Calificacion {cancion._calificacion}")
             print("="*15)
+
+    elif opcion == "8":
+        print("CANCIONES RECOMENDADAS:")
+        buscar = input("INGRESE EL TITULO DE LA CANCION PARA RECOMENDACIONES SIMILARES: ").lower().strip()
+        verticeEncontrado = None
+        for vertice in grafoMain.vertices():#se recorre todos los vertices del grafomain (canciones)
+            if vertice.element()._titulo.lower().strip() == buscar:
+                verticeEncontrado = vertice
+                break #cortamos el codigo para continuar
+        if verticeEncontrado:
+            cancionActual = verticeEncontrado.element() #mostramos la cancion (vertice)
+            print(f"RECOMENDACION: '{cancionActual._titulo}' / ARTISTA: {cancionActual._artista}")
+            print("SIMILARES:")
+            tieneConexiones = False
+            for arista in grafoMain.incident_edges(verticeEncontrado):#recorremos las aristas para encontrar vertices
+                opuesto = arista.opposite(verticeEncontrado)#desde vertice origen a vertice opuesto conectados por la arista
+                cancionVertex = opuesto.element()
+                print(f"   > TITULO: '{cancionVertex._titulo}' ({arista.element()})")#presencacion simple
+                tieneConexiones = True 
+            if not tieneConexiones:
+                print("   > (NO SE ENCONTRARON COINCIDENCIAS)")
+        else:
+            print("NO SE ENCONTRO ESA CANCION.")
+        pass
 
     elif opcion == "9":
         print("Saliendo del programa...")
