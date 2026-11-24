@@ -193,3 +193,35 @@ class Graph: #solo por si acaso, vertex = vertice, edge = arista
     def incident_edges(self, v): #devuelve las aristas que salen de un vertice
         for v2, x in self._outgoing[v].items(): # v se convierte en v2 (otro vertice final), con x como comun
             yield self.Edge(v, v2, x) #se crea una arista edge con los nuevos datos
+
+def BFS(grafo, inicio, descubiertas):#necesitamos el grafo, la cancion inicial y un diccionario de canciones exploradas
+    nivel_actual = [inicio]
+    while len(nivel_actual) > 0:#mientras hayan canciones en el nivel
+        siguiente_nivel = []
+        for cancion_actual in nivel_actual:
+            for conexion in grafo.incident_edges(cancion_actual):
+                cancion_vecina = conexion.opposite(cancion_actual)#busca dato opuesto al origen
+                if cancion_vecina not in descubiertas:
+                    descubiertas[cancion_vecina] = conexion #asigna la arista (dato comun)
+                    siguiente_nivel.append(cancion_vecina)
+        nivel_actual = siguiente_nivel #cuando termina, hace el siguiente nivel
+
+def DFS(grafo, actual, descubiertas):#recursiva, con el grafo, cancion y diccionario
+    for conexion in grafo.incident_edges(actual):#revisa cada arista de la cancion
+        cancion_vecina = conexion.opposite(actual)
+        if cancion_vecina not in descubiertas:
+            descubiertas[cancion_vecina] = conexion #anota el dato comun
+            DFS(grafo, cancion_vecina, descubiertas)
+
+def camino(origen, destino, descubiertas):
+    camino = [] #lista que retornar
+    if destino in descubiertas:
+        camino.append(destino)
+        nodo_recorrido = destino
+        while nodo_recorrido is not origen:#bucle hasta llegar al final
+            conexion = descubiertas[nodo_recorrido]
+            nodo_anterior = conexion.opposite(nodo_recorrido)
+            camino.append(nodo_anterior)#agrega el dato al camino, y despues da vuelta la lista (pq termina en el principio)
+            nodo_recorrido = nodo_anterior
+        camino.reverse()
+    return camino

@@ -75,7 +75,7 @@ while True:
         #METODOS TEMPORALES; BORRAR DESPUES
         print("1. BUSQUEDA SECUENCIAL")
         print("2. BUSQUEDA DE ARBOL")
-        tipobusqueda = input ("INGRESE EL TIPO DE BUSQUEDA A REALIZAR").lower()
+        tipobusqueda = input ("INGRESE EL TIPO DE BUSQUEDA A REALIZAR: ").lower()
         #METODOS TEMPORALES; BORRAR DESPUES
         buscar = input("INGRESE EL NOMBRE DE LA CANCION: ").lower()
         #METODO TEMPORAL; BORRAR DESPUES #SE TIENE QUE PONER EL NOMBRE EXACTO DE LA CANCION PARA QUE FUNCIONE
@@ -301,32 +301,85 @@ while True:
 
     elif opcion == "8":
         print("CANCIONES RECOMENDADAS:")
-        buscar = input("INGRESE EL TITULO DE LA CANCION PARA RECOMENDACIONES SIMILARES: ").lower().strip()
-        verticeEncontrado = None
-        for vertice in grafoMain.vertices():#se recorre todos los vertices del grafomain (canciones)
-            if vertice.element()._titulo.lower().strip() == buscar:
-                verticeEncontrado = vertice
-                break #cortamos el codigo para continuar
-        if verticeEncontrado:
-            cancionActual = verticeEncontrado.element() #mostramos la cancion (vertice)
-            print(f"RECOMENDACION: '{cancionActual._titulo}' / ARTISTA: {cancionActual._artista}")
-            print("SIMILARES:")
-            tieneConexiones = False
-            for arista in grafoMain.incident_edges(verticeEncontrado):#recorremos las aristas para encontrar vertices
-                opuesto = arista.opposite(verticeEncontrado)#desde vertice origen a vertice opuesto conectados por la arista
-                cancionVertex = opuesto.element()
-                print(f"   > TITULO: '{cancionVertex._titulo}' ({arista.element()})")#presencacion simple
-                tieneConexiones = True 
-            if not tieneConexiones:
-                print("   > (NO SE ENCONTRARON COINCIDENCIAS)")
-        else:
-            print("NO SE ENCONTRO ESA CANCION.")
-        pass
+        print("1. CANCIONES SIMILARES")
+        print("2. RECOMENDACIONES SIMILARES")#bfs
+        print("3. PLAYLIST RECOMENDADA SEGUN CANCION")#dfs
+        opcion = input("INGRESE UNA OPCION: ")
+
+        if opcion == "1":
+            buscar = input("INGRESE EL TITULO DE LA CANCION PARA RECOMENDACIONES SIMILARES: ").lower().strip()
+            verticeEncontrado = None
+            for vertice in grafoMain.vertices():#se recorre todos los vertices del grafomain (canciones)
+                if vertice.element()._titulo.lower().strip() == buscar:
+                    verticeEncontrado = vertice
+                    break #cortamos el codigo para continuar
+            if verticeEncontrado:
+                cancionActual = verticeEncontrado.element() #mostramos la cancion (vertice)
+                print(f"RECOMENDACION: '{cancionActual._titulo}' / ARTISTA: {cancionActual._artista}")
+                print("SIMILARES:")
+                tieneConexiones = False
+                for arista in grafoMain.incident_edges(verticeEncontrado):#recorremos las aristas para encontrar vertices
+                    opuesto = arista.opposite(verticeEncontrado)#desde vertice origen a vertice opuesto conectados por la arista
+                    cancionVertex = opuesto.element()
+                    print(f"   > TITULO: '{cancionVertex._titulo}' ({arista.element()})")#presencacion simple
+                    tieneConexiones = True 
+                if not tieneConexiones:
+                    print("   > (NO SE ENCONTRARON COINCIDENCIAS)")
+            else:
+                print("NO SE ENCONTRO ESA CANCION.")
+            pass
+
+        elif opcion == "2": # BFS, muestra recomendaciones cercanas (primer nivel)
+            buscar = input("INGRESE EL TITULO DE LA CANCION PARA RECOMENDACIONES POR CERCANIA: ").lower().strip()
+            verticeEncontrado = None
+            for vertice in grafoMain.vertices():#se recorre todos los vertices del grafomain (canciones)
+                if vertice.element()._titulo.lower().strip() == buscar:
+                    verticeEncontrado = vertice
+                    break #cortamos el codigo para continuar
+            if verticeEncontrado:
+                descubiertas = {verticeEncontrado: None}#clave, valor
+                BFS(grafoMain, verticeEncontrado, descubiertas) #ejecuta BFS nivel por nivel desde la cancion elegida
+                print(f"RECOMENDACIONES POR CERCANIA DE '{verticeEncontrado.element()._titulo}':")
+                conexiones = False
+                for descubierta, arista in descubiertas.items():#por cada cancion cercana y conexion en descubiertas 
+                                                                #nos devuelve ambas (clave valor)
+                    if arista: # omite el vertice inicial
+                        if arista.opposite(descubierta) == verticeEncontrado: #revisa si la cancion encontrada conecta con lo buscado
+                            cancionVertex = descubierta.element() #mostramos la cancion
+                            print(f"   > TITULO: '{cancionVertex._titulo}' ({arista.element()})")
+                            conexiones = True
+                if not conexiones:
+                    print("   > NO SE ENCONTRARON SIMILARES.")
+            else:
+                print("NO SE ENCONTRO ESA CANCION.")
+
+        elif opcion == "3": #DFS muestra recomendaciones en profundidad (playlist de hasta 10)
+            buscar = input("INGRESE EL TITULO DE LA CANCION PARA VER UNA PLAYLIST RECOMENDADA: ").lower().strip()
+            verticeEncontrado = None
+            for vertice in grafoMain.vertices(): #se recorre todos los vertices del grafomain (canciones)
+                if vertice.element()._titulo.lower().strip() == buscar:
+                    verticeEncontrado = vertice
+                    break #cortamos el codigo para continuar
+            if verticeEncontrado:
+                descubiertas = {verticeEncontrado: None}
+                DFS(grafoMain, verticeEncontrado, descubiertas) #DFS en profundidad desde la cancion elegida
+                print(f"PLAYLIST RECOMENDADA, SIMILAR A '{verticeEncontrado.element()._titulo}':")
+                conexiones = False
+                contador = 0 #para limitar la playlist a 10 canciones
+                for descubierta, arista in descubiertas.items():
+                    if arista and contador < 10:
+                        cancionVertex = descubierta.element()
+                        print(f"   > TITULO: '{cancionVertex._titulo}' ({arista.element()})") #presencacion simple
+                        conexiones = True
+                        contador += 1
+                if not conexiones:
+                    print("   > NO SE ENCONTRARON SIMILARES.")
+            else:
+                print("NO SE ENCONTRO ESA CANCION.")
 
     elif opcion == "9":
         print("Saliendo del programa...")
         break
-# Si el usuario introduce una opción que no existe
     else:
         print("Opción inválida")
 
