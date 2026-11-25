@@ -119,7 +119,7 @@ while True:
             print("NO HAY ELEMENTOS EN LA BIBLIOTECA")
         else:
             for i in biblioteca:
-                print (i)#muestra
+                print (f"{i._nombre}")#muestra
         print("="*30)
         print("1. BUSCADOR")
         print("2. EXAMINAR PLAYLIST")
@@ -129,7 +129,7 @@ while True:
         opcion2 = input("INGRESE UNA OPCION: ")
 
         if opcion2 == "1":
-            buscar = input("INGRESE LA CANCION")
+            buscar = input("INGRESE LA CANCION: ")
             encontrado = False
             for cancion in bibliotecaCanciones:
                 if buscar.lower().strip() == cancion._titulo.lower().strip(): #esto sale de cancion.py
@@ -142,7 +142,7 @@ while True:
             if len(biblioteca) == 0:
                 print("NO HAY PLAYLISTS A EXAMINAR")
             else:
-                buscarPlaylist = input("INGRESE LA PLAYLIST A EXAMINAR:")
+                buscarPlaylist = input("INGRESE LA PLAYLIST A EXAMINAR: ")
                 encontrado = None
                 for playlist in biblioteca:
                     if playlist._nombre.lower().strip() == buscarPlaylist.lower().strip(): #esto sale de album.py
@@ -156,7 +156,7 @@ while True:
             if len(biblioteca) == 0:
                 print("NO HAY PLAYLISTS A EXAMINAR")
             else:
-                buscarPlaylist = input("INGRESE LA PLAYLIST A LA QUE AÑADIR UNA CANCION:")
+                buscarPlaylist = input("INGRESE LA PLAYLIST A LA QUE AÑADIR UNA CANCION: ")
                 playlistencontrado = None
                 for playlist in biblioteca:
                     if playlist._nombre.lower().strip() == buscarPlaylist.lower().strip():#esto sale de album.py igual que arriba
@@ -181,7 +181,7 @@ while True:
             if len(biblioteca) == 0:
                 print("NO HAY PLAYLISTS A EXAMINAR")#esto es lo mismo que la opcion de arriba pero a la inversa, tmb de album.py
             else:
-                eliminarPlaylist = input("INGRESE LA PLAYLIST DE LA QUE REMOVER UNA CANCION:")
+                eliminarPlaylist = input("INGRESE LA PLAYLIST DE LA QUE REMOVER UNA CANCION: ")
                 playlistencontrado = None
                 for playlist in biblioteca:
                     if playlist._nombre.lower().strip() == eliminarPlaylist.lower().strip():
@@ -210,7 +210,7 @@ while True:
         print("PARA SALIR DE ESTE MENU, INGRESE '1'")
         crear = input("INGRESE UN NOMBRE PARA LA NUEVA PLAYLIST (o '1' para salir): ")
         if crear == "1":
-            break
+            pass
         else:
             usuario.crearPlaylist(crear)
             print("PLAYLIST AÑADIDA")
@@ -277,7 +277,7 @@ while True:
             if not encontrado:
                 print ("NO SE ENCONTRO NINGUNA CANCION.")
         elif filtrar == "2":
-            filtrarcalificacion = int(input("INGRESE LA CALIFICACION:"))
+            filtrarcalificacion = int(input("INGRESE LA CALIFICACION: "))
             encontrado = False
             for cancion in bibliotecaCanciones:
                 if cancion._calificacion== filtrarcalificacion:
