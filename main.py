@@ -84,13 +84,15 @@ while True:
 
         if tipobusqueda == "1":
             inicio = time.perf_counter()
-            encontrado = False
+            resultado = None
             for i in bibliotecaCanciones:
-                if buscar in i._titulo.lower().strip():
-                    encontrado = True
+                if i._titulo.lower().strip() == buscar.strip():
+                    resultado = i
                     print(i)
             fin = time.perf_counter()
-            if not encontrado:
+            if resultado != None:
+                print(resultado)
+            else:
                 print("NO SE ENCONTRO NINGUNA CANCION.")
 
             tiempo = (fin - inicio) * 1000
